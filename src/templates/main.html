@@ -22,6 +22,8 @@
               type: 'get'
           }).done((data) => {
               result = '';
+              console.log(data.rooms);
+              console.log(data["rooms"]);
               data.rooms.forEach(element => {
                   element = element.split('.json')[0];
                   result += `<li>${element}<button onclick="intoRoom('${element}')">입장</button></li>`;
@@ -37,11 +39,11 @@
     function createRoom(){
       var newRoom = $('#newRoom').val();
       if(newRoom.length != 0) {
-        location.href = '/chat/' + newRoom+'?name='+$("#name").val()+'&room='+newRoom;
+        location.href = '/chat/' + newRoom+'?name='+$("#name").val();
       }
     }
     function intoRoom(roomName) {
-        location.href='/chat/'+roomName+'?name='+$("#name").val()+'&room='+roomName;
+        location.href='/chat/'+roomName+'?name='+$("#name").val();
     }
   </script>
 

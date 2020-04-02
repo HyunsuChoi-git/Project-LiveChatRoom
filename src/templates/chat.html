@@ -10,12 +10,12 @@
 <body>
     <h1 id="roomname"></h1>
     <div id="chatLog" class="chatLog">
-		    <p>공지 : 매너 있는 채팅 부탁드립니다 :)</p>
+		    <p>공지 : BTS 채팅방에 오신 걸 환영합니다 !</p>
 		</div>
     <input id="name" class="name" type="text" readonly>
     <input id="message" onkeydown="JavaScript:Enter_Check()" class="message" type="text" autocomplete="off">
-    <button onclick="chat_submit()">전송</button><br/>
-
+    <button onclick="chat_submit()">전송</button>
+    <button onclick="chat_exit()">나가기</button>
 
     <script src="/socket.io/socket.io.js"/></script>
     <script src="//code.jquery.com/jquery-1.11.1.js"></script>

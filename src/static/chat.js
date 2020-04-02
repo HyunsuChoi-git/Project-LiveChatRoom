@@ -13,25 +13,16 @@ function getParameterByName(name) {
 
 $(document).ready(function(){
 		userName = getParameterByName("name");
-		roomName = getParameterByName("room");
+    var url=window.location.pathname.split('/')[2];
+    roomName = decodeURI(url);
+
 		$('#name').val(userName);
 		$('#roomname').text('BTS Chat Room - ('+roomName+')');
 		socket.emit('start', roomName, userName);
 
-
-//////////////////////////////////
-		$.ajax({
-				url: '/getparam',
-				type: 'get'
-		}).done((data) => {
-				console.log(data);
-				roomName = data;
-        console.log(roomName);
-		});
-
 });
 
-socket.on(`fast message`+2, function(name, text) {
+socket.on('fast message', function(name, text) {
     console.log('이전내용 뿌리러 왔다!');
 
 		//채팅창에 이전 내용 뿌리기
@@ -51,10 +42,11 @@ socket.on(`fast message`+2, function(name, text) {
 });
 
 //서버로부터 메세지를 받음
-socket.on('receive message대전', function(name, text) {
+socket.on('receive message', function(name, text) {
     console.log('대화 뿌리러 왔다!');
 		//채팅창에 내용 뿌리기
     var tagP = document.createElement('p');
+
     var msg = name + ' : ' + text;
     if(name == $('#name').val()){
         tagP.className = 'myMessage';
@@ -77,7 +69,10 @@ function chat_submit() {
     $('#message').val("");
     $("#message").focus();
 }
-
+function chat_exit() {
+    socket.emit('exit room', $('#name').val());
+    location.href='/';
+}
 
 function Enter_Check(){
     if(event.keyCode == 13){

@@ -4,7 +4,7 @@ var ff = '';
 
 module.exports = {
     renderIndex : (req, res) => {
-        res.sendFile(__dirname + '/templates/index.html');
+        res.sendFile(__dirname + '/templates/chat.html');
         ff = req.params.id;
     },
     renderMain : (req, res) => {
@@ -15,8 +15,6 @@ module.exports = {
         res.json({
             rooms: rooms,
         });
-    },
-    paramName: (req, res) => {
-      res.send(ff);
     }
+
 }
