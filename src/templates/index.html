@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, sharink-to-fit=no">
+    <title>Document</title>
+    <meta name="theme-color" content="#000">
+		<link rel="stylesheet" href="/main.css">
+</head>
+<body>
+    <h1 id="roomname"></h1>
+    <div id="chatLog" class="chatLog">
+		    <p>공지 : 매너 있는 채팅 부탁드립니다 :)</p>
+		</div>
+    <input id="name" class="name" type="text" readonly>
+    <input id="message" onkeydown="JavaScript:Enter_Check()" class="message" type="text" autocomplete="off">
+    <button onclick="chat_submit()">전송</button><br/>
+
+
+    <script src="/socket.io/socket.io.js"/></script>
+    <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+    <script src="/chat.js"></script>
+
+</body>
+</html>

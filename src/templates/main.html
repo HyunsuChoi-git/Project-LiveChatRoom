@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="theme-color" content="#000">
+		<link rel="stylesheet" href="/main.css">
+</head>
+<body>
+  <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+  <h1>BTS Chat Room</h1>
+    닉네임 : <input type="text" id="name" name="username"><br/>
+    채팅방 : <br/><br/>
+    <ul id="roomList" class="room-list"></ul>
+    <br/>
+    <button id="createRoom">채팅방 개설</button>
+  <script>
+    $(document).ready(() => {
+      //채팅방 리스트 뽑아오기
+          $.ajax({
+              url: '/chat',
+              type: 'get'
+          }).done((data) => {
+              result = '';
+              data.rooms.forEach(element => {
+                  element = element.split('.json')[0];
+                  result += `<li>${element}<button onclick="intoRoom('${element}')">입장</button></li>`;
+              });
+              $('#roomList').html(result);
+          });
+    });
+    $('#createRoom').click(function(){
+          $('#createRoom').after('<br/><input type="text" name="newRoom" id="newRoom" placeholder="방제목을 입력하세요.">'
+        +'<button onclick="createRoom()">생성하기</button>');
+          $('#createRoom').remove();
+    });
+    function createRoom(){
+      var newRoom = $('#newRoom').val();
+      if(newRoom.length != 0) {
+        location.href = '/chat/' + newRoom+'?name='+$("#name").val()+'&room='+newRoom;
+      }
+    }
+    function intoRoom(roomName) {
+        location.href='/chat/'+roomName+'?name='+$("#name").val()+'&room='+roomName;
+    }
+  </script>
+
+</body>
+</html>

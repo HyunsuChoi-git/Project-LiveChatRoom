@@ -12,6 +12,9 @@
     "body-parser": "^1.19.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
-    "oracledb": "^4.2.0"
+    "fs": "0.0.1-security",
+    "mysql": "^2.18.1",
+    "oracledb": "^4.2.0",
+    "socket.io": "^2.3.0"
   }
 }
