@@ -22,8 +22,6 @@
               type: 'get'
           }).done((data) => {
               result = '';
-              console.log(data.rooms);
-              console.log(data["rooms"]);
               data.rooms.forEach(element => {
                   element = element.split('.json')[0];
                   result += `<li>${element}<button onclick="intoRoom('${element}')">입장</button></li>`;
