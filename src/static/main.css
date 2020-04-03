@@ -7,29 +7,45 @@
 	padding: 0;
 }
 body {
-	background-color: rgba(178, 199, 217, 1);
+
 	margin: 0;
 	padding: 0;
 }
 
 .chatLog {
-	max-width: 850px;
-	width: 100%;
-	margin-right: auto;
-	margin-left: auto;
-	height: 95vh;
+	position: absolute;
+	left:0%;
+	background-color: rgba(178, 199, 217, 1);
+	width: 430px;
+	height: 520px;
+
 	padding-bottom: 30px;
 	overflow: scroll;
 }
 
+#chatInfo {
+	position: absolute;
+	right:5%;
+	width: 200px;
+	height: 400px;
+	background-color: rgba(178, 199, 217, 1);
+}
+
+#chatSub {
+	position: absolute;
+	left:0%;
+	bottom: 5%;
+}
+
 .chatLog > p {
 	display: inline-block;
-	padding: 15px;
-	margin: 10px;
+	padding: 8px;
+	margin: 6px;
 	background-color: rgba(255,255,255,1);
-	border-radius: 10px;
+	border-radius: 8px;
 	float: left;
 	clear: both;
+	font-size: 13px;
 }
 
 .chatLog > p.myMessage {
@@ -39,30 +55,28 @@ body {
 }
 
 .chatBox {
-	position: fixed;
-	bottom: 0;
-	left: 0;
-	width: 100%;
+	position: relative;
+	width: 680px;
+	height: 620px;
 	background-color: rgba(255,255,255,0.8);
-	text-align: center;
 }
 
 .name {
 	border: none;
 	height: 30px;
-	width: 10%;
+	width: 50px;
 	background: #ddd;
 }
 
 .message {
 	border: none;
 	height: 30px;
-	width: 50%;
+	width: 263px;
 }
 
-.chatBox button {
-	width: 15%;
+.chat-button {
 	border: none;
-	padding: 5px;
-	background: rgba(255,255,255,1);
+	height: 30px;
+	width: 50px;
+	background: #ddd;
 }

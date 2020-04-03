@@ -12,13 +12,13 @@ app.get('/chat/:id',    views.renderIndex);
 app.get('/chat', views.chatList);
 app.get('/', views.renderMain);
 
-app.use(express.static(__dirname+'/static'));
 module.exports = app;
+app.use(express.static(__dirname+'/static'));
+app.use('/static',express.static(__dirname+'/data_base'));
 
 var io = require('socket.io').listen(server);
 
 //key: 소켓넘버, value:닉네임
-var userInfo = new Map();
 let isRoom = false;
 let roomName = '';
 let data = {};
@@ -54,8 +54,10 @@ io.on('connection', socket =>{
                 db.userEntrance(roomName, data, userName);
               //5-3. 채팅창에 유저 입장 알림
                 io.emit('receive message', '',userName+'님이 입장했습니다.');
-              //5.4. 알림내용 저장
+              //554. 알림내용 저장
                 db.dataPush(roomName, data, '',userName+'님이 입장했습니다.');
+              //5-5. 첫참여자 닉네임 추가하기(to현재 실시간 대화참여 중인 유저화면)
+                socket.broadcast.emit('receive userName', userName, data.userCount, data.host);
             }else {
             //6.유저가 존재하면 채팅창에 이전 대화기록 뿌려주기
                 //6-1. 유저 첫입장 시간 빼오기
@@ -72,10 +74,13 @@ io.on('connection', socket =>{
                     }
                 }
             }
-                //유저네임과 소켓 저장해놓기(임시)
-                userInfo.set(socket.id,userName);
-                console.log("map:", userInfo);
+            //7. 참여자들 아이디 띄우기(to방금 입장한 유저화면)
+              data.userEntrance.forEach(element =>{
+                  io.to(socket.id).emit('receive userName', element.name, data.userCount, data.host);
+              })
+
       	});
+
         //7. 사용자가 메세지 전송시
         socket.on('send message', (name, text) => {
               console.log(name+' : '+text);
@@ -84,16 +89,20 @@ io.on('connection', socket =>{
               //대화내용 저장
         			db.dataPush(roomName, data, name, text);
         });
+
         //8. 퇴장버튼 누르면 채팅창 완전히 나가기
         socket.on('exit room', (userName) => {
           //8-1. 퇴장알림 띄우기
           io.emit('receive message', '',userName+'님이 퇴장했습니다.');
-          //8-2. 알림내용 저장
+          //8-3. 알림내용 저장
           db.dataPush(roomName, data, '',userName+'님이 퇴장했습니다.');
-          //8-3. data에서 인원수 내리기
+          //8-4. data에서 인원수 내리기
           db.userCountDown(roomName, data);
-          //8-4. data에서 유저정보 삭제
+          //8-2. 참여자 유저닉네임 제거(to 현재 실시간 참여중인 유저 화면)
+          io.emit('remove user', userName, data.userCount);
+          //8-5. data에서 유저정보 삭제
           db.userExit(roomName, data, userName);
+
         })
 
         // socket.on('disconnect', () => {

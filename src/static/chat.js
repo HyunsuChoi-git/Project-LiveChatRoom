@@ -41,9 +41,34 @@ socket.on('fast message', function(name, text) {
 
 });
 
+//참여자에 닉네임 뿌리기
+socket.on('receive userName', function(name, count, host){
+  var tagP = document.createElement('p');
+  var id = name;
+  if($('#name').val() == host){
+    tagP.className = 'myHost';
+    id = id+'(방장)(me)';
+  }else{
+    if(name == $('#name').val()){
+        tagP.className = 'myId';
+        id = id+'(me)';
+    }else{
+        tagP.className = name;
+    }
+  }
+  $('h4').html(`참여자 (${count})`);
+  tagP.appendChild(document.createTextNode(id));
+  document.getElementById('chatInfo').appendChild(tagP);
+});
+//참여자 퇴장시 화면에 닉네임 내리기
+socket.on('remove user', function(name, count){
+  $('h4').html(`참여자 (${count})`);
+  var header = document.querySelector("p."+name);
+  header.parentNode.removeChild(header);
+});
+
 //서버로부터 메세지를 받음
 socket.on('receive message', function(name, text) {
-    console.log('대화 뿌리러 왔다!');
 		//채팅창에 내용 뿌리기
     var tagP = document.createElement('p');
 
@@ -73,7 +98,6 @@ function chat_exit() {
     socket.emit('exit room', $('#name').val());
     location.href='/';
 }
-
 function Enter_Check(){
     if(event.keyCode == 13){
       chat_submit();
