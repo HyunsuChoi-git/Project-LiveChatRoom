@@ -7,42 +7,83 @@
 		<link rel="stylesheet" href="/main.css">
 </head>
 <body>
-  <script src="//code.jquery.com/jquery-1.11.1.js"></script>
+
   <h1>BTS Chat Room</h1>
-    닉네임 : <input type="text" id="name" name="username"><br/>
-    채팅방 : <br/><br/>
-    <ul id="roomList" class="room-list"></ul>
-    <br/>
-    <button id="createRoom">채팅방 개설</button>
+  <form id="room-set" action="#" onsubmit="room_set()">
+    닉네임 : <input type="text" name='name' id="userName"required><br/>
+    제목 : <input type="text" id="roomName" required><br/>
+    인원 수<select id="roomCount">
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+            <option>6</option>
+        </select>
+    <input type="submit" value="채팅방 개설"/>
+  </form>
+  <br/>
+  채팅방 : <br/>
+  <ul id="roomList" class="room-list"></ul>
+  <br/>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js"
+integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+crossorigin="anonymous"></script>
   <script>
-    $(document).ready(() => {
-      //채팅방 리스트 뽑아오기
-          $.ajax({
-              url: '/chat',
-              type: 'get'
-          }).done((data) => {
-              result = '';
-              data.rooms.forEach(element => {
-                  element = element.split('.json')[0];
-                  result += `<li>${element}<button onclick="intoRoom('${element}')">입장</button></li>`;
-              });
-              $('#roomList').html(result);
-          });
-    });
-    $('#createRoom').click(function(){
-          $('#createRoom').after('<br/><input type="text" name="newRoom" id="newRoom" placeholder="방제목을 입력하세요.">'
-        +'<button onclick="createRoom()">생성하기</button>');
-          $('#createRoom').remove();
-    });
-    function createRoom(){
-      var newRoom = $('#newRoom').val();
-      if(newRoom.length != 0) {
-        location.href = '/chat/' + newRoom+'?name='+$("#name").val();
+      var socket=io();
+      var count = 0;
+      //채팅방 개설
+      function room_set(){
+        //병찬
+        var userName=$("#userName").val();
+        var roomName=$("#roomName").val();
+        var roomCount=$("#roomCount").val();
+        var room_set=
+        {"roomName":roomName,"userName":userName,"roomCount":roomCount};
+        socket.emit('startroom',room_set);
+
+        $("#room-set").attr("action","/chat/"+roomName);
       }
+
+      socket.on('roomlist',(data)=>{
+          let result = '';
+          var data_length=data["rooms"].length;
+          for(var element of data["rooms"]){
+            result = '';
+            data.rooms.forEach(element => {
+                element = element.split('.json')[0];
+                result += `<li>${element}<button onclick="bb('${element}')">입장</button></li>`;
+            });
+            $('#roomList').html(result);
+          }
+      });
+
+    function bb(room){
+        var userName=$("#userName").val();
+        if(!userName){
+            alert('닉네임 입력해주세용');
+            return false;
+        }
+        window.location.href='/chat/'+room+'?name='+userName;
     }
-    function intoRoom(roomName) {
-        location.href='/chat/'+roomName+'?name='+$("#name").val();
-    }
+
+
+    // $(document).ready(() => {
+    //   //채팅방 리스트 뽑아오기
+    //       $.ajax({
+    //           url: '/chat',
+    //           type: 'get'
+    //       }).done((data) => {
+    //           result = '';
+    //           data.rooms.forEach(element => {
+    //               element = element.split('.json')[0];
+    //               result += `<li>${element}<button onclick="bb('${title}')">입장</button></li>`;
+    //           });
+    //           $('#roomList').html(result);
+    //       });
+    // });
+
+
   </script>
 
 </body>

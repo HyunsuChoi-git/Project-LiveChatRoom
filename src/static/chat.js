@@ -1,8 +1,4 @@
-//<script src=""/></script>
-var socket = io();
 
-var userName = '';
-var roomName = '';
 
 function getParameterByName(name) { //url에서 파라미터 빼오는 함수
     name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
@@ -12,16 +8,15 @@ function getParameterByName(name) { //url에서 파라미터 빼오는 함수
 }
 
 //채팅방 url 처음 접속 시
-$(document).ready(function(){
-		userName = getParameterByName("name");  //url에서 name파라미터 빼오기
-    var url=window.location.pathname.split('/')[2];
-    roomName = decodeURI(url);  //url에서 방제목 빼오기
+//방제목 저장 및 namespace Io 만들기
+var url=window.location.pathname.split('/')[2];
+var roomName = decodeURI(url);
+var userName = getParameterByName("name");
+const socket = io("/"+roomName);
 
-		$('#name').val(userName); //유저 화면에 닉네임 넣어주기
-		$('#roomname').text('BTS Chat Room - ('+roomName+')');  //채팅방이름 띄우기
-		socket.emit('start', roomName, userName); //'start 이벤트 호출'
-
-});
+$('#roomname').text('BTS Chat Room - ('+roomName+')');  //채팅방이름 띄우기
+$('#name').val(userName);
+socket.emit('setName', userName);
 
 //채팅창에 이전 내용 뿌리기
 socket.on('fast message', function(name, text) {
@@ -42,14 +37,16 @@ socket.on('fast message', function(name, text) {
 
 //참여자 화면에 채팅방 참여자 인원수와 닉네임 띄우기
 socket.on('receive userName', function(name, count, host){
+  console.log('name: '+name);
+  console.log('host: ' + host);
   var tagP = document.createElement('p');
   var id = name;
-  if($('#name').val() == host){
-    tagP.className = 'myHost';
+  if(name == host && host == $('#name').val()){
+    tagP.className = name;
     id = id+'(방장)(me)';
   }else{
     if(name == $('#name').val()){
-        tagP.className = 'myId';
+        tagP.className = name;
         id = id+'(me)';
     }else{
         tagP.className = name;
@@ -58,6 +55,7 @@ socket.on('receive userName', function(name, count, host){
   $('h4').html(`참여자 (${count})`);
   tagP.appendChild(document.createTextNode(id));
   document.getElementById('chatInfo').appendChild(tagP);
+
 });
 
 //참여자 퇴장시 화면에서 인원수와 닉네임 내리기
@@ -80,8 +78,8 @@ socket.on('receive message', function(name, text) {
         msg = text;
     }
     tagP.appendChild(document.createTextNode(msg));
-    document.getElementById('chatLog').appendChild(tagP);
-    var objDiv = document.getElementById("chatLog");
+    $('#chatLog').append(tagP);
+    var objDiv = $("#chatLog");
     objDiv.scrollTop = objDiv.scrollHeight;
 
 		//정상적으로 뿌려졌으면 저장이벤트 호출
