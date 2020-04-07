@@ -37,13 +37,14 @@ socket.on('fast message', function(name, text) {
 
 //참여자 화면에 채팅방 참여자 인원수와 닉네임 띄우기
 socket.on('receive userName', function(name, count, host){
-  console.log('name: '+name);
-  console.log('host: ' + host);
   var tagP = document.createElement('p');
   var id = name;
   if(name == host && host == $('#name').val()){
     tagP.className = name;
     id = id+'(방장)(me)';
+  }else if(name == host){
+    tagP.className = name;
+    id = id+'(방장)';
   }else{
     if(name == $('#name').val()){
         tagP.className = name;
@@ -54,8 +55,7 @@ socket.on('receive userName', function(name, count, host){
   }
   $('h4').html(`참여자 (${count})`);
   tagP.appendChild(document.createTextNode(id));
-  document.getElementById('chatInfo').appendChild(tagP);
-
+  $('#chatInfo').append(tagP);
 });
 
 //참여자 퇴장시 화면에서 인원수와 닉네임 내리기
