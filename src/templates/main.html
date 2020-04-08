@@ -19,22 +19,19 @@
             <option>5</option>
             <option>6</option>
         </select>
-    <input type="submit" value="채팅방 개설"/>
+    <input type="submit" id="submit" value="채팅방 개설"/>
   </form>
   <br/>
   채팅방 : <br/>
   <ul id="roomList" class="room-list"></ul>
-  <br/>
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.js"
 integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
 crossorigin="anonymous"></script>
   <script>
       var socket=io();
-      var count = 0;
       //채팅방 개설
       function room_set(){
-        //병찬
         var userName=$("#userName").val();
         var roomName=$("#roomName").val();
         var roomCount=$("#roomCount").val();
@@ -45,16 +42,19 @@ crossorigin="anonymous"></script>
         $("#room-set").attr("action","/chat/"+roomName);
       }
 
+      //채팅방 리스트 띄우기
       socket.on('roomlist',(data)=>{
+          roomList = data;
           let result = '';
-          var data_length=data["rooms"].length;
-          for(var element of data["rooms"]){
-            result = '';
-            data.rooms.forEach(element => {
-                element = element.split('.json')[0];
-                result += `<li>${element}<button onclick="bb('${element}')">입장</button></li>`;
-            });
-            $('#roomList').html(result);
+          for(var room of roomList){
+              roomNUR = room[0]+' ('+room[1]+'/'+room[2]+')';
+              if ( room[1] < room[2] ) {
+                  result += `<li>${roomNUR} <button onclick="bb('${room[0]}')">입장</button></li>`;
+              }else {
+                  result += `<li>${roomNUR} <button> 풀방~ </button></li>`;
+              }
+
+              $('#roomList').html(result);
           }
       });
 
@@ -66,24 +66,6 @@ crossorigin="anonymous"></script>
         }
         window.location.href='/chat/'+room+'?name='+userName;
     }
-
-
-    // $(document).ready(() => {
-    //   //채팅방 리스트 뽑아오기
-    //       $.ajax({
-    //           url: '/chat',
-    //           type: 'get'
-    //       }).done((data) => {
-    //           result = '';
-    //           data.rooms.forEach(element => {
-    //               element = element.split('.json')[0];
-    //               result += `<li>${element}<button onclick="bb('${title}')">입장</button></li>`;
-    //           });
-    //           $('#roomList').html(result);
-    //       });
-    // });
-
-
   </script>
 
 </body>

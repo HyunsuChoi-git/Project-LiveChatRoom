@@ -11,7 +11,16 @@ function dataSave(data, roomName) {
 module.exports = {
   //전체 채팅방 리스트 뽑아오기
   roomList: () => {
-      return fs.readdirSync(__dirname + `/roomNames/`);
+      //전체 방 이름 가져오기 roomname.json
+      var roomfiles = fs.readdirSync(__dirname + `/roomNames/`);
+      var roomList = [];
+      //하나하나 꺼내서 방이름,인원수,참여자수 저장하기
+      for (var roomfile of roomfiles){
+          var data = fs.readFileSync(__dirname+`/roomNames/${roomfile}`, 'utf-8');
+          data = JSON.parse(data);
+          roomList.push([data.roomName,data.userCount,data.roomCount]);
+      }
+      return roomList;
   },
   //같은 이름의 채팅방이 존재하는 지 확인
   isRoom: (roomName) => {
@@ -28,12 +37,12 @@ module.exports = {
   //채팅방 개설하기
   dataInit: (room_set) => { //채팅방 개설 & json파일 생성
       data = {  //data : 기본정보 (방장, 인원수, 글들이 저장될 리스트타입)
-          roomName: room_set.roomName,
-          host: room_set.userName,
-          roomCount: room_set.roomCount,
-          userCount: 0,
-          userEntrance: [],
-          userContent: []
+          roomName: room_set.roomName,//방이름
+          host: room_set.userName,//방장이름
+          roomCount: room_set.roomCount,//방인원수설정
+          userCount: 0,//현재참여인원수
+          userEntrance: [],//참여자정보
+          userContent: []//대화기록
       };
       dataSave(data, data.roomName);
   },

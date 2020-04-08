@@ -40,7 +40,7 @@ socket.on('receive userName', function(name, count, host){
   var tagP = document.createElement('p');
   var id = name;
   if(name == host && host == $('#name').val()){
-    tagP.className = name;
+    tagP.className = host;
     id = id+'(방장)(me)';
   }else if(name == host){
     tagP.className = name;
@@ -56,6 +56,13 @@ socket.on('receive userName', function(name, count, host){
   $('h4').html(`참여자 (${count})`);
   tagP.appendChild(document.createTextNode(id));
   $('#chatInfo').append(tagP);
+
+  //////// 자기자신이 방장이면 퇴장버튼 만들어주기
+  //// h4 클래스 네임이 host인 것으로 체크
+  if($('p').hasClass('.host') === true){
+    console.
+     $(".name").after("<button>강퇴</button>")
+  }
 });
 
 //참여자 퇴장시 화면에서 인원수와 닉네임 내리기
