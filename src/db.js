@@ -1,9 +1,15 @@
 const fs = require('fs')
 
 function dataSave(data, roomName) {
-
     data = JSON.stringify(data);
-    fs.writeFileSync(__dirname + `/roomNames/${roomName}.json`, data, 'utf-8', function (err) {
+    fs.writeFileSync(__dirname + `/openedRoom/${roomName}.json`, data, 'utf-8', function (err) {
+        if (err) throw err;
+    });
+}
+
+function dataDelete(data, roomName) {
+    data = JSON.stringify(data);
+    fs.writeFileSync(__dirname + `/endedRoom/${roomName}.json`, data, 'utf-8', function (err) {
         if (err) throw err;
     });
 }
@@ -12,11 +18,11 @@ module.exports = {
   //전체 채팅방 리스트 뽑아오기
   roomList: () => {
       //전체 방 이름 가져오기 roomname.json
-      var roomfiles = fs.readdirSync(__dirname + `/roomNames/`);
+      var roomfiles = fs.readdirSync(__dirname + `/openedRoom/`);
       var roomList = [];
       //하나하나 꺼내서 방이름,인원수,참여자수 저장하기
       for (var roomfile of roomfiles){
-          var data = fs.readFileSync(__dirname+`/roomNames/${roomfile}`, 'utf-8');
+          var data = fs.readFileSync(__dirname+`/openedRoom/${roomfile}`, 'utf-8');
           data = JSON.parse(data);
           roomList.push([data.roomName,data.userCount,data.roomCount]);
       }
@@ -26,7 +32,7 @@ module.exports = {
   isRoom: (roomName) => {
     try{  //파일이 존재한다면
       //파일의 정보를 불려오는 stst함수
-      fs.statSync(__dirname + `/roomNames/${roomName}.json`);
+      fs.statSync(__dirname + `/openedRoom/${roomName}.json`);
       return true;
     }catch(err){
       if (err.code === 'ENOENT') { //파일이 존재하지 않는다면
@@ -48,7 +54,7 @@ module.exports = {
   },
   //한 채팅방 정보 가져오기
   dataLoad: (roomName) => { //채팅방 가져오기
-      var data = fs.readFileSync(__dirname+`/roomNames/${roomName}.json`, 'utf-8');
+      var data = fs.readFileSync(__dirname+`/openedRoom/${roomName}.json`, 'utf-8');
       return JSON.parse(data); //json타입을 js객체로 파싱하여 리턴
   },
   //유저네임이 해당 채팅방에 존재하는 지 확인
@@ -67,6 +73,11 @@ module.exports = {
           name: userName,
           date: new Date()
       });
+      dataSave(data, roomName);
+  },
+  //채팅방에 유저입장시 카운트 -1
+  userCountUp: (roomName, data) => {
+      data.userCount++;
       dataSave(data, roomName);
   },
   // 유저 입장시간 빼오기(이전채팅 로드용)
@@ -98,6 +109,14 @@ module.exports = {
       if (idx > -1) data.userEntrance.splice(idx, 1);
 
       dataSave(data, roomName);
+  },
+
+  dataDelete: (data, roomName) =>{
+      dataDelete(data, roomName);
+      fs.unlink(__dirname + `/openedRoom/${roomName}.json`, function(err){
+          if( err ) throw err;
+          console.log('file deleted');
+      });
   }
 
 }

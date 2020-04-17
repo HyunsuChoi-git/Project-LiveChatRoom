@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="theme-color" content="#000">
+		<link rel="stylesheet" href="/login.css">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+</head>
+<body id="LoginForm">
+  <div class="container">
+      <h1 class="form-heading">반띵 ChatRoom</h1>
+      <div id="login" class="login-form" style="display:none;margin-top:15%;">
+
+        <div class="main-div">
+          <div class="panel">
+            <h2>login</h2>
+            <p>반띵 ChatRoom에 입장하시려면 <br/>로그인이 필요합니다.</p>
+          </div>
+
+          <form id="Login" action="/" method="post">
+            <div class="form-group">
+              <input type="text" class="form-control" id="inputEmail" name="id" placeholder="User Id" required>
+            </div>
+            <div class="form-group">
+              <input type="password" class="form-control" id="inputPassword" name="pw" placeholder="Password" required>
+            </div>
+            <!-- <div class="forgot">
+              <a href="reset.html">Forgot password?</a>
+            </div> -->
+            <button type="submit" class="btn btn-primary">Login</button>
+            <button type="button" id="signupBtn" class="btn btn-primary" onclick="window.location.href='/signup'">Sign Up</button>
+          </form>
+        </div>
+        <p class="botto-text"> Designed by Sunil Rajput</p>
+        </div>
+      </div>
+      <script>
+        $("document").ready(function(){
+          $("#login").fadeToggle();
+        })
+      </script>
+</body>
+</html>

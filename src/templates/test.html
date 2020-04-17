@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <meta name="theme-color" content="#000">
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+<!-- 부가적인 테마 -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+</head>
+<body id="LoginForm">
+<style>
+  .container .jumbotron, .container-fluid{
+      padding-left: 5px;
+      padding-top:0px;
+      padding-right:0px;
+      padding-bottom:0px;
+  }
+  .web{
+font-size:25px;
+width:100%;
+height:100%;
+z-index:1;
+}
+
+      #web_ARDTable {
+          width:30em;
+      }
+      .strong {
+          text-align:center;
+          width: 100px;
+      }
+      .vo{
+          text-align:center;
+      }
+      #roomContent {
+          width:30em;
+          height:16em;
+          text-align:center;
+          word-break:break-all;
+      }
+
+      #roomContent > div {
+          border: 1px solid #C9C8C6;
+          height:13em;
+          word-break:break-all;
+          overflow: auto;
+      }
+</style>
+<div class="container">
+<div class="web">
+<div style="width:50%;height:50%;position:relative;">
+<div class="web_AllRoomDetail" style="width:50%;height:50%;font-size:14px;">
+<div class="web_AllRoom">
+<table class="table" id="web_ARDTable">
+
+'<tr><td class="strong" colspan="6"><h3>제목 : '+room.title+'</h3>';
+'<h4>상품명 : 안알랴줌 &nbsp &nbsp &nbsp 글쓴이 : 안알랴줌</h4><h5><a href="#">상품사진보기</a></h5></td></tr>';
+'<tr><td class="strong" colspan="6">';
+'<h5>카테고리  &nbsp &nbsp '+room.options+'</h5><br/>';
+'<h5>키워드  &nbsp &nbsp  '+room.tag+'</h5></td></tr>';
+'<tr><td class="strong" colspan="3"><h5>거래 방식</h5> <h4>'+room.pay+'</h4></td>';
+'<td class="strong" colspan="3"><h5>상품 가격</h5> <h4>'+room.price+' 원</h4></td></tr>';
+'<tr><td class="strong" colspan="3"><h5>참여 가능한 성별</h5> <h4>'+room.gender+'</h4></td>';
+'<td class="strong" colspan="3"><h5>참여 인원</h5> <h4>1/'+room.personnel+'명</h4></td></tr>';
+</table>
+
+<div id='roomContent'>
+  '<p id="roomContent_S" align="center">내용</p>'
+'<div>'+room.content+'</div>'
+</div>
+<button onclick='AllRoomDetailBack()' class='btn'>뒤로가기</button>
+<button class='btn'>입장</button>
+
+</div>
+</div>
+</div>
+</div>
+</div>
+</body>
+</html>

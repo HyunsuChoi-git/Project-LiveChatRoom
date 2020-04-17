@@ -6,24 +6,34 @@
     <meta name="theme-color" content="#000">
 		<link rel="stylesheet" href="/main.css">
 </head>
-<body>
+<body id="MainBody">
+  <div class="container">
+    <h1 class="form-heading">반띵 ChatRoom</h1>
+    <div id="login" class="login-form" >
 
-  <h1>BTS Chat Room</h1>
-  <form id="room-set" action="#" onsubmit="room_set()">
-    닉네임 : <input type="text" name='name' id="userName"required><br/>
-    제목 : <input type="text" id="roomName" required><br/>
-    인원 수<select id="roomCount">
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-            <option>6</option>
-        </select>
-    <input type="submit" id="submit" value="채팅방 개설"/>
-  </form>
-  <br/>
-  채팅방 : <br/>
-  <ul id="roomList" class="room-list"></ul>
+      <div class="main-div">
+        <div class="panel">
+          <h2>BTS Chat Room</h1>
+        </div>
+          <form id="room-set" action="#" onsubmit="room_set()">
+            닉네임 : <input type="text" name='name' id="userName"required><br/>
+            제목 : <input type="text" id="roomName" required><br/>
+            인원 수<select id="roomCount">
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+              <option>6</option>
+            </select>
+            <input type="submit" id="submit" value="채팅방 개설"/>
+          </form>
+          <br/>
+          채팅방 : <br/>
+          <ul id="roomList" class="room-list"></ul>
+      </div>
+    </div>
+  </div>
+
   <script src="/socket.io/socket.io.js"></script>
   <script src="https://code.jquery.com/jquery-3.4.1.js"
 integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
