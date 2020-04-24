@@ -64,9 +64,8 @@ module.exports = {
           if(element.name == userName) isUser = true;
       });
       return isUser;
-  },
-  //채팅방에 새로운 유저 들어오면 카운트 +1
-  //채팅방에 새로운 유저 들어오면 닉네임과 입장시간 저장
+    },
+  //채팅방에 새로운 유저 들어오면 카운트 +1, 닉네임과 입장시간 저장
   userEntrance: (roomName, data, userName) => {
       data.userCount++;
       data.userEntrance.push({
@@ -75,7 +74,6 @@ module.exports = {
       });
       dataSave(data, roomName);
   },
-  //채팅방에 유저입장시 카운트 -1
   userCountUp: (roomName, data) => {
       data.userCount++;
       dataSave(data, roomName);

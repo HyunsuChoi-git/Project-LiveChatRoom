@@ -13,7 +13,7 @@ var url=window.location.pathname.split('/')[2];
 var roomName = decodeURI(url);
 var userName = getParameterByName("name");
 const socket = io("/"+roomName);
-
+console.log("socket : ",socket);
 $('#roomname').text('BTS Chat Room - ('+roomName+')');  //채팅방이름 띄우기
 $('#name').val(userName);
 socket.emit('setName', userName);

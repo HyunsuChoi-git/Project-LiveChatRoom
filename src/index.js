@@ -17,12 +17,8 @@ app.get('/', views.login);
 app.post('/', views.loginCheck);
 app.get('/signup', views.signup);
 app.get('/main', views.renderMain);
-app.use('/static',express.static(__dirname+'/openedRoom'))
+//app.use('/static',express.static(__dirname+'/openedRoom'));
 app.use(express.static(__dirname+'/static'));
-
-app.get('/test', views.test);
-app.get('/testCss', views.test2);
-
 
 var io = require('socket.io').listen(server);
 
@@ -39,10 +35,11 @@ rooms_set["rooms"].forEach((roomName) => {
     var roomName = roomName.split('.json')[0];
     var room_nsp=io.of('/'+roomName);
     console.log(room_nsp.name,"네임스페이스 완성")
-    var room_socket =
+
     //유저가 채팅방 입장시 채팅진행 커넥션
     room_nsp.on("connect",(roomsocket)=>{
         skill(room_nsp,roomsocket,roomName);
+        console.log("접속");
 
         roomsocket.on('disconnect', ()=>{
           console.log(room_nsp.name,"에 "+roomsocket.id+' : '+usersSocketId[roomsocket.id]+' >> 퇴장');
