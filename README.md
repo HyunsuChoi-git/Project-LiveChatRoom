@@ -20,5 +20,3 @@
 - JSON타입으로 실시간으로 데이터 저장 및 전달
 - Jquery를 이용한 이벤트 처리
 - 채팅정보와 내용 JSON 파일로 저장
-
-### Clone -> git/cmd를 실행하여 npm install --save express -> localhost:3000/main으로  접속 가능합니다.
