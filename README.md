@@ -12,7 +12,7 @@
 - Framework : express, Node.js(Socket.io)
 - Language/Skills : Javascript, Jquery, HTML
 
-## 개발 인원 : 2명
+## 개발 인원 : 1명
 
 ## 담당 역할
 - Express 프레임워크를 활용하여 라우터 기능 탑재 후 MVC패턴 적용
